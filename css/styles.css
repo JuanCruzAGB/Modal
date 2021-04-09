@@ -1,0 +1,97 @@
+:root {
+    --modal-background-color: rgba(34, 34, 34, 0.5);
+    --modal-content-background-color: #fff;
+}
+
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-background-color);
+    z-index: 20;
+    cursor: pointer;
+    transition: 500ms;
+}
+
+.modal:not(.opened) {
+    display: none;
+}
+
+.modal .modal-content {
+    cursor: default;
+    position: fixed;
+    margin: 1rem;
+    background-color: var(--modal-content-background-color);
+}
+
+.modal .modal-content.center {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.modal .modal-content.left {
+    left: 0;
+    transform: translateX(0);
+}
+
+.modal .modal-content.left.center {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.modal .modal-content.top {
+    top: 0;
+    transform: translateY(0);
+}
+
+.modal .modal-content.top.center {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal .modal-content.right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.modal .modal-content.right.center {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.modal .modal-content.bottom {
+    bottom: 0;
+    transform: translateY(0);
+}
+
+.modal .modal-content.bottom.center {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ? MD */
+@media (min-width: 768px) {
+    /**/
+}
+
+/* ? LG */
+@media (min-width: 1024px) {
+    /**/
+}
+
+/* ? XL */
+@media (min-width: 1280px) {
+    /**/
+}
+
+/* ? 2XL */
+@media (min-width: 1536px) {
+    /**/
+}
