@@ -1,6 +1,9 @@
 // ? JuanCruzAGB repository
 import Class from "../../JuanCruzAGB/js/Class.js";
 
+// ? External repositories
+import { URLServiceProvider as URL } from "../../ProvidersJS/js/URLServiceProvider.js";
+
 /** @var {object} defaultProps Default properties. */
 let defaultProps = {
     id: 'modal-1',
@@ -37,6 +40,7 @@ export class Modal extends Class {
         this.setHTML(`#${ this.props.id }.modal`);
         this.html.addEventListener('click', function (e) {
             if (e.target !== e.currentTarget) { return }
+            window.history.pushState({}, document.title, URL.findOriginalRoute());
             instance.close();
         });
         this.checkState();
