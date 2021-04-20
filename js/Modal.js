@@ -12,6 +12,7 @@ let defaultProps = {
 /** @var {object} defaultState Default state. */
 let defaultState = {
     open: false,
+    outsideClick: false,
 };
 
 /**
@@ -28,21 +29,18 @@ export class Modal extends Class {
      * @param {string} [id='modal-1'] Modal primary key.
      * @param {object} [state] Modal state:
      * @param {boolean} [open=false] Modal open state.
+     * @param {boolean} [outsideClick=false] Modal outside click state.
      * @memberof Modal
      */
     constructor (props = {
         id: 'modal-1',
     }, state = {
         open: false,
+        outsideClick: false,
     }) {
         super({ ...defaultProps, ...props }, { ...defaultState, ...state });
-        let instance = this;
         this.setHTML(`#${ this.props.id }.modal`);
-        this.html.addEventListener('click', function (e) {
-            if (e.target !== e.currentTarget) { return }
-            window.history.pushState({}, document.title, URL.findOriginalRoute());
-            instance.close();
-        });
+        this.setButtons();
         this.checkState();
     }
 
@@ -52,6 +50,7 @@ export class Modal extends Class {
      */
     checkState () {
         this.checkOpenState();
+        this.checkOutsideClickState();
     }
 
     /**
@@ -63,6 +62,43 @@ export class Modal extends Class {
             this.open();
         } else {
             this.close();
+        }
+    }
+
+    /**
+     * * Check the outside close state.
+     * @memberof Modal
+     */
+    checkOutsideClickState () {
+        let instance = this;
+        if (this.state.outsideClick) {
+            this.html.classList.add('clicked');
+            this.html.addEventListener('click', function (e) {
+                if (e.target !== e.currentTarget) { return }
+                window.history.pushState({}, document.title, URL.findOriginalRoute());
+                instance.close();
+            });
+        }
+    }
+
+    /**
+     * * Set the Modal close buttons
+     * @memberof Modal
+     */
+    setButtons () {
+        let instance = this;
+        if (!this.buttons) {
+            this.buttons = [];
+        }
+        if (document.querySelectorAll(`.modal-close.${ this.props.id }`).length) {
+            for (const button of document.querySelectorAll(`.modal-close.${ this.props.id }`)) {
+                this.buttons.push(button);
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.history.pushState({}, document.title, URL.findOriginalRoute());
+                    instance.close();
+                });
+            }
         }
     }
 
