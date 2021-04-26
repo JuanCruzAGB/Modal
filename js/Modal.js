@@ -90,15 +90,28 @@ export class Modal extends Class {
         if (!this.buttons) {
             this.buttons = [];
         }
-        if (document.querySelectorAll(`.modal-close.${ this.props.id }`).length) {
-            for (const button of document.querySelectorAll(`.modal-close.${ this.props.id }`)) {
+        if (document.querySelectorAll(`.modal-button.${ this.props.id }`).length) {
+            for (const button of document.querySelectorAll(`.modal-button.${ this.props.id }`)) {
                 this.buttons.push(button);
                 button.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    window.history.pushState({}, document.title, URL.findOriginalRoute());
-                    instance.close();
+                    instance.switch();
                 });
             }
+        }
+    }
+
+    /**
+     * * Switch the Modal open state.
+     * @memberof Modal
+     */
+    switch () {
+        switch (this.state.open) {
+            case true:
+                this.close();
+                break;
+            case false:
+                this.open();
+                break;
         }
     }
 
