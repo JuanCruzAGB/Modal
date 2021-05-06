@@ -41,8 +41,6 @@ Por ejemplo:
 	</div>
 </div>
 ```
-If you want to position this content you can do it adding `center` `left` `top` `right` `bottom` as className.
-For example:
 Si querés posicionar el contenido puedes hacerlo agregandole las clases`center` `left` `top` `right` `bottom`.
 Por ejemplo:
 ```
@@ -51,6 +49,13 @@ Por ejemplo:
 		<!-- -->
 	</div>
 </div>
+```
+Automaticamente el archivo busca todos los elementos **HTML** que existan con la clase = `modal-button` y además una clase igual al `id` de la **Modal**, y los hace abrir/cerrar al clickearlos, dependiendo de como esté.
+Por ejemplo:
+```
+<button class="modal-button modal-1">
+	<span>Open Modal</span>
+</button>
 ```
 
 ## Configuración
@@ -68,4 +73,6 @@ Las **propiedades** existentes son:
  - {string} **id:** Id de la etiqueta HTML de la Modal. Por defecto viene en `modal-1`
 
 Los **estados** existentes son:
+ - {boolean} **detectHash:** Si quisieras que la Modal detecte cuando esta tageada con el hash pone como valor `true`. Por defecto viene en `false`
  - {boolean} **open:** Si quisieras que la Modal esté abierta pone como valor `true`. Por defecto viene en `false`
+ - {boolean} **outsideClick:** Si quisieras que la Modal se cierre al clickear en el fondo pone como valor `true`. Por defecto viene en `false`

@@ -50,6 +50,13 @@ For example:
 	</div>
 </div>
 ```
+Automatically the JS search all the HTMLElements with `class="modal-button"` & the same **Modal** id as a className giving to them the open/close action on click event.
+For example:
+```
+<button class="modal-button modal-1">
+	<span>Open Modal</span>
+</button>
+```
 
 ## Configuration
 Import the **Modal** into your script to generate the logic.
@@ -65,4 +72,6 @@ The **properties** are:
 - {string} **id:** Modal HTMLElement id. Default = `modal-1`
 
 The **states** are:
-- {boolean} **open:** If the Modal have to be opened. Default = `false`
+- {boolean} **detectHash:** If the Modal have to detect the hash param set `true`. Default = `false`
+- {boolean} **open:** If the Modal have to be opened set `true`. Default = `false`
+- {boolean} **outsideClick:** If the Modal have to be closed when clicks outside set `true`. Default = `false`

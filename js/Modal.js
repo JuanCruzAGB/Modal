@@ -11,6 +11,7 @@ let defaultProps = {
 
 /** @var {object} defaultState Default state. */
 let defaultState = {
+    detectHash: false,
     open: false,
     outsideClick: false,
 };
@@ -28,6 +29,7 @@ export class Modal extends Class {
      * @param {object} [props] Modal properties:
      * @param {string} [id='modal-1'] Modal primary key.
      * @param {object} [state] Modal state:
+     * @param {boolean} [detectHash=false] Modal detect the hash state.
      * @param {boolean} [open=false] Modal open state.
      * @param {boolean} [outsideClick=false] Modal outside click state.
      * @memberof Modal
@@ -35,6 +37,7 @@ export class Modal extends Class {
     constructor (props = {
         id: 'modal-1',
     }, state = {
+        detectHash: false,
         open: false,
         outsideClick: false,
     }) {
@@ -49,8 +52,21 @@ export class Modal extends Class {
      * @memberof Modal
      */
     checkState () {
+        this.checkDetectHashState();
         this.checkOpenState();
         this.checkOutsideClickState();
+    }
+
+    /**
+     * * Check the detect hash state.
+     * @memberof Modal
+     */
+     checkDetectHashState () {
+        if (this.state.detectHash) {
+            if (URL.findHashParameter() === this.props.id) {
+                this.state.open = true;
+            }
+        }
     }
 
     /**

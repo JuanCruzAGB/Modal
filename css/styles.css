@@ -23,63 +23,68 @@
     pointer-events: initial;
     cursor: default;
     position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
     margin: 1rem;
     background-color: var(--modal-content-background-color, #fff);
 }
 
-.modal .modal-content.center {
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-
-.modal .modal-content.left {
-    left: 0;
-    transform: translateX(0);
-}
-
-.modal .modal-content.left.center {
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.modal .modal-content.top {
-    top: 0;
-    transform: translateY(0);
-}
-
-.modal .modal-content.top.center {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.modal .modal-content.right {
-    right: 0;
-    transform: translateX(0);
-}
-
-.modal .modal-content.right.center {
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-}
-
-.modal .modal-content.bottom {
-    bottom: 0;
-    transform: translateY(0);
-}
-
-.modal .modal-content.bottom.center {
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 /* ? MD */
 @media (min-width: 768px) {
-    /**/
+    .modal .modal-content {
+        top: initial;
+        transform: initial;
+    }
+
+    .modal .modal-content.center {
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    
+    .modal .modal-content.left {
+        left: 0;
+        transform: translateX(0);
+    }
+    
+    .modal .modal-content.left.center {
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .modal .modal-content.top {
+        top: 0;
+        transform: translateY(0);
+    }
+    
+    .modal .modal-content.top.center {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .modal .modal-content.right {
+        right: 0;
+        transform: translateX(0);
+    }
+    
+    .modal .modal-content.right.center {
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+    }
+    
+    .modal .modal-content.bottom {
+        bottom: 0;
+        transform: translateY(0);
+    }
+    
+    .modal .modal-content.bottom.center {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 /* ? LG */
