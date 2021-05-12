@@ -62,10 +62,16 @@ export class Modal extends Class {
      * @memberof Modal
      */
      checkDetectHashState () {
+        let instance = this;
         if (this.state.detectHash) {
             if (URL.findHashParameter() === this.props.id) {
                 this.state.open = true;
             }
+            window.addEventListener('hashchange', function (e) {
+                if (URL.findHashParameter() === instance.props.id) {
+                    instance.open();
+                }
+            });
         }
     }
 
