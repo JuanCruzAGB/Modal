@@ -1,3 +1,7 @@
+:root {
+    --modal-separation: 1rem;
+}
+
 .modal {
     position: fixed;
     left: 0;
@@ -25,8 +29,9 @@
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    margin: 1rem;
     background-color: var(--modal-content-background-color, #fff);
+    max-height: 100vh;
+    overflow: auto;
 }
 
 /* ? MD */
@@ -43,45 +48,45 @@
     }
     
     .modal .modal-content.left {
-        left: 0;
+        left: var(--modal-separation);
         transform: translateX(0);
     }
     
     .modal .modal-content.left.center {
-        left: 0;
+        left: var(--modal-separation);
         top: 50%;
         transform: translateY(-50%);
     }
     
     .modal .modal-content.top {
-        top: 0;
+        top: var(--modal-separation);
         transform: translateY(0);
     }
     
     .modal .modal-content.top.center {
-        top: 0;
+        top: var(--modal-separation);
         left: 50%;
         transform: translateX(-50%);
     }
     
     .modal .modal-content.right {
-        right: 0;
+        right: var(--modal-separation);
         transform: translateX(0);
     }
     
     .modal .modal-content.right.center {
         top: 50%;
-        right: 0;
+        right: var(--modal-separation);
         transform: translateY(-50%);
     }
     
     .modal .modal-content.bottom {
-        bottom: 0;
+        bottom: var(--modal-separation);
         transform: translateY(0);
     }
     
     .modal .modal-content.bottom.center {
-        bottom: 0;
+        bottom: var(--modal-separation);
         left: 50%;
         transform: translateX(-50%);
     }
