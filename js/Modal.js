@@ -4,18 +4,6 @@ import Class from "../../JuanCruzAGB/js/Class.js";
 // ? External repositories
 import { URLServiceProvider as URL } from "../../ProvidersJS/js/URLServiceProvider.js";
 
-/** @var {object} defaultProps Default properties. */
-let defaultProps = {
-    id: 'modal-1',
-};
-
-/** @var {object} defaultState Default state. */
-let defaultState = {
-    detectHash: false,
-    open: false,
-    outsideClick: false,
-};
-
 /**
  * * Modal controls the modal's logic.
  * @export
@@ -32,6 +20,13 @@ export class Modal extends Class {
      * @param {boolean} [detectHash=false] Modal detect the hash state.
      * @param {boolean} [open=false] Modal open state.
      * @param {boolean} [outsideClick=false] Modal outside click state.
+     * @param {object} [callbacks] Modal callbacks:
+     * @param {object} [callbacks.open] Modal open callback:
+     * @param {function} [callbacks.open.function] Modal open callback function.
+     * @param {*} [callbacks.open.params] Modal open callback function params.
+     * @param {object} [callbacks.close] Modal close callback:
+     * @param {function} [callbacks.close.function] Modal close callback function.
+     * @param {*} [callbacks.close.params] Modal close callback function params.
      * @memberof Modal
      */
     constructor (props = {
@@ -40,8 +35,16 @@ export class Modal extends Class {
         detectHash: false,
         open: false,
         outsideClick: false,
-    }) {
-        super({ ...defaultProps, ...props }, { ...defaultState, ...state });
+    }, callbacks = {
+        open: {
+            function: function (params) { /* console.log('open') */ },
+            params: {},
+    }, close: {
+            function: function (params) { /* console.log('open') */ },
+            params: {},
+    }}) {
+        super({ ...Modal.props, ...props }, { ...Modal.state, ...state });
+        this.setCallbacks({  ...Modal.callbacks, ...callbacks });
         this.setHTML(`#${ this.props.id }.modal`);
         this.setButtons();
         this.checkState();
@@ -141,8 +144,12 @@ export class Modal extends Class {
      * * Open the Modal.
      * @memberof Modal
      */
-    open () {
+    open (params = {}) {
         this.setState('open', true);
+        this.execute('open', {
+            ModalJS: this,
+            ...params,
+        });
         this.html.classList.add('opened');
     }
 
@@ -150,10 +157,45 @@ export class Modal extends Class {
      * * Close the Modal.
      * @memberof Modal
      */
-    close () {
+    close (params = {}) {
         this.setState('open', false);
+        this.execute('close', {
+            ModalJS: this,
+            ...params,
+        });
         this.html.classList.remove('opened');
     }
+
+    /** 
+     * @static
+     * @var {object} props Default properties.
+     */
+    static props = {
+        id: 'modal-1',
+    }
+    
+    /** 
+     * @static
+     * @var {object} state Default state.
+     */
+    static state = {
+        detectHash: false,
+        open: false,
+        outsideClick: false,
+    }
+    
+    /** 
+     * @static
+     * @var {object} callbacks Default callbacks.
+     */
+    static callbacks = {
+        open: {
+            function: function (params) { /* console.log('open') */ },
+            params: {},
+    }, close: {
+            function: function (params) { /* console.log('open') */ },
+            params: {},
+    }}
 }
 
 // ? Defaut export
