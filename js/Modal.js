@@ -51,6 +51,25 @@ export class Modal extends Class {
     }
 
     /**
+     * * Set the Modal close buttons
+     * @memberof Modal
+     */
+    setButtons () {
+        let instance = this;
+        if (!this.buttons) {
+            this.buttons = [];
+        }
+        if (document.querySelectorAll(`.modal-button.${ this.props.id }`).length) {
+            for (const button of document.querySelectorAll(`.modal-button.${ this.props.id }`)) {
+                this.buttons.push(button);
+                button.addEventListener('click', function (e) {
+                    instance.switch();
+                });
+            }
+        }
+    }
+
+    /**
      * * Check the state.
      * @memberof Modal
      */
@@ -85,7 +104,8 @@ export class Modal extends Class {
     checkOpenState () {
         if (this.state.open) {
             this.open();
-        } else {
+        }
+        if (!this.state.open) {
             this.close();
         }
     }
@@ -103,25 +123,6 @@ export class Modal extends Class {
                 window.history.pushState({}, document.title, URL.findOriginalRoute());
                 instance.close();
             });
-        }
-    }
-
-    /**
-     * * Set the Modal close buttons
-     * @memberof Modal
-     */
-    setButtons () {
-        let instance = this;
-        if (!this.buttons) {
-            this.buttons = [];
-        }
-        if (document.querySelectorAll(`.modal-button.${ this.props.id }`).length) {
-            for (const button of document.querySelectorAll(`.modal-button.${ this.props.id }`)) {
-                this.buttons.push(button);
-                button.addEventListener('click', function (e) {
-                    instance.switch();
-                });
-            }
         }
     }
 
@@ -146,11 +147,13 @@ export class Modal extends Class {
      */
     open (params = {}) {
         this.setState('open', true);
-        this.execute('open', {
-            ModalJS: this,
-            ...params,
-        });
-        this.html.classList.add('opened');
+        if (!this.html.classList.contains('opened')) {
+            this.execute('open', {
+                ModalJS: this,
+                ...params,
+            });
+            this.html.classList.add('opened');
+        }
     }
 
     /**
@@ -159,11 +162,13 @@ export class Modal extends Class {
      */
     close (params = {}) {
         this.setState('open', false);
-        this.execute('close', {
-            ModalJS: this,
-            ...params,
-        });
-        this.html.classList.remove('opened');
+        if (this.html.classList.contains('opened')) {
+            this.execute('close', {
+                ModalJS: this,
+                ...params,
+            });
+            this.html.classList.remove('opened');
+        }
     }
 
     /** 
