@@ -5,7 +5,7 @@ import Class from "../../JuanCruzAGB/js/Class.js";
 import { URLServiceProvider as URL } from "../../ProvidersJS/js/URLServiceProvider.js";
 
 /**
- * * Modal controls the modal's logic.
+ * * Modal controls the modal"s logic.
  * @export
  * @class Modal
  * @extends {Class}
@@ -15,7 +15,7 @@ export class Modal extends Class {
     /**
      * * Creates an instance of Modal.
      * @param {object} [props] Modal properties:
-     * @param {string} [id='modal-1'] Modal primary key.
+     * @param {string} [id="modal-1"] Modal primary key.
      * @param {object} [state] Modal state:
      * @param {boolean} [detectHash=false] Modal detect the hash state.
      * @param {boolean} [open=false] Modal open state.
@@ -30,17 +30,17 @@ export class Modal extends Class {
      * @memberof Modal
      */
     constructor (props = {
-        id: 'modal-1',
+        id: "modal-1",
     }, state = {
         detectHash: false,
         open: false,
         outsideClick: false,
     }, callbacks = {
         open: {
-            function: function (params) { /* console.log('open') */ },
+            function: function (params) { /* console.log("open") */ },
             params: {},
     }, close: {
-            function: function (params) { /* console.log('open') */ },
+            function: function (params) { /* console.log("open") */ },
             params: {},
     }}) {
         super({ ...Modal.props, ...props }, { ...Modal.state, ...state });
@@ -62,7 +62,7 @@ export class Modal extends Class {
         if (document.querySelectorAll(`.modal-button.${ this.props.id }`).length) {
             for (const button of document.querySelectorAll(`.modal-button.${ this.props.id }`)) {
                 this.buttons.push(button);
-                button.addEventListener('click', function (e) {
+                button.addEventListener("click", function (e) {
                     instance.switch();
                 });
             }
@@ -83,15 +83,17 @@ export class Modal extends Class {
      * * Check the detect hash state.
      * @memberof Modal
      */
-     checkDetectHashState () {
-        let instance = this;
+    checkDetectHashState () {
         if (this.state.detectHash) {
-            if (URL.findHashParameter() === this.props.id) {
+            if (URL.findHashParameter() == this.props.id) {
                 this.state.open = true;
             }
-            window.addEventListener('hashchange', function (e) {
-                if (URL.findHashParameter() === instance.props.id) {
-                    instance.open();
+            window.addEventListener("hashchange", (e) => {
+                if (URL.findHashParameter() == this.props.id && !this.state.open) {
+                    this.open();
+                }
+                if (URL.findHashParameter() != this.props.id && this.state.open) {
+                    this.close();
                 }
             });
         }
@@ -117,8 +119,8 @@ export class Modal extends Class {
     checkOutsideClickState () {
         let instance = this;
         if (this.state.outsideClick) {
-            this.html.classList.add('clicked');
-            this.html.addEventListener('click', function (e) {
+            this.html.classList.add("clicked");
+            this.html.addEventListener("click", function (e) {
                 if (e.target !== e.currentTarget) { return }
                 window.history.pushState({}, document.title, URL.findOriginalRoute());
                 instance.close();
@@ -146,13 +148,13 @@ export class Modal extends Class {
      * @memberof Modal
      */
     open (params = {}) {
-        this.setState('open', true);
-        if (!this.html.classList.contains('opened')) {
-            this.execute('open', {
+        this.setState("open", true);
+        if (!this.html.classList.contains("opened")) {
+            this.execute("open", {
                 ModalJS: this,
                 ...params,
             });
-            this.html.classList.add('opened');
+            this.html.classList.add("opened");
         }
     }
 
@@ -161,13 +163,13 @@ export class Modal extends Class {
      * @memberof Modal
      */
     close (params = {}) {
-        this.setState('open', false);
-        if (this.html.classList.contains('opened')) {
-            this.execute('close', {
+        this.setState("open", false);
+        if (this.html.classList.contains("opened")) {
+            this.execute("close", {
                 ModalJS: this,
                 ...params,
             });
-            this.html.classList.remove('opened');
+            this.html.classList.remove("opened");
         }
     }
 
@@ -176,7 +178,7 @@ export class Modal extends Class {
      * @var {object} props Default properties.
      */
     static props = {
-        id: 'modal-1',
+        id: "modal-1",
     }
     
     /** 
@@ -195,10 +197,10 @@ export class Modal extends Class {
      */
     static callbacks = {
         open: {
-            function: function (params) { /* console.log('open') */ },
+            function: function (params) { /* console.log("open") */ },
             params: {},
     }, close: {
-            function: function (params) { /* console.log('open') */ },
+            function: function (params) { /* console.log("open") */ },
             params: {},
     }}
 }
