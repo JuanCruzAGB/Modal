@@ -9,7 +9,7 @@ import { URLServiceProvider as URL } from "../../ProvidersJS/js/URLServiceProvid
  * @export
  * @class Modal
  * @extends {Class}
- * @author Juan Cruz Armentia <juancarmentia@gmail.com>
+ * @author Juan Cruz Armentia <juan.cruz.armentia@gmail.com>
  */
 export class Modal extends Class {
     /**
