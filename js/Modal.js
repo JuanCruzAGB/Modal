@@ -1,209 +1,174 @@
-// ? JuanCruzAGB repository
-import Class from "../../JuanCruzAGB/js/Class.js";
+// ? JuanCruzAGB | Source repository
+import Class, { URL, } from '@juancruzagb/src';
 
-// ? External repositories
-import { URLServiceProvider as URL } from "../../ProvidersJS/js/URLServiceProvider.js";
+// ? Modal repository
+import { Button, } from "@juancruzagb/sidebar";
 
 /**
- * * Modal controls the modal"s logic.
+ * * Modal makes an excellent modal.
  * @export
  * @class Modal
  * @extends {Class}
  * @author Juan Cruz Armentia <juan.cruz.armentia@gmail.com>
  */
-export class Modal extends Class {
+export default class Modal extends Class {
     /**
      * * Creates an instance of Modal.
-     * @param {object} [props] Modal properties:
-     * @param {string} [id="modal-1"] Modal primary key.
-     * @param {object} [state] Modal state:
-     * @param {boolean} [detectHash=false] Modal detect the hash state.
-     * @param {boolean} [open=false] Modal open state.
-     * @param {boolean} [outsideClick=false] Modal outside click state.
-     * @param {object} [callbacks] Modal callbacks:
-     * @param {object} [callbacks.open] Modal open callback:
-     * @param {function} [callbacks.open.function] Modal open callback function.
-     * @param {*} [callbacks.open.params] Modal open callback function params.
-     * @param {object} [callbacks.close] Modal close callback:
-     * @param {function} [callbacks.close.function] Modal close callback function.
-     * @param {*} [callbacks.close.params] Modal close callback function params.
      * @memberof Modal
      */
-    constructor (props = {
-        id: "modal-1",
-    }, state = {
-        detectHash: false,
-        open: false,
-        outsideClick: false,
-    }, callbacks = {
-        open: {
-            function: function (params) { /* console.log("open") */ },
-            params: {},
-    }, close: {
-            function: function (params) { /* console.log("open") */ },
-            params: {},
-    }}) {
-        super({ ...Modal.props, ...props }, { ...Modal.state, ...state });
-        this.setCallbacks({  ...Modal.callbacks, ...callbacks });
-        this.setHTML(`#${ this.props.id }.modal`);
-        this.setButtons();
-        this.checkState();
+    constructor (data = {
+        callbacks: {
+            close: {
+                function: params => { /* console.log(params); */ },
+                params: {},
+            },
+            open: {
+                function: params => { /* console.log(params); */ },
+                params: {},
+            },
+        },
+        props: {
+            id: "modal-1",
+        },
+        state: {
+            open: false,
+        },
+    }) {
+        super({
+            callbacks: {
+                ...Modal.callbacks(),
+                ...(data && data.hasOwnProperty('callbacks')) ? data.callbacks : {},
+            },
+            props: {
+                ...Modal.props(),
+                ...(data && data.hasOwnProperty('props')) ? data.props : {},
+            },
+            state: {
+                ...Modal.state(),
+                ...(data && data.hasOwnProperty('state')) ? data.state : {},
+            },
+        });
+
+        this.html = document.querySelector(`#${ this.props.id }.modal`);
+        this.html.addEventListener('click', event => {
+            if (event.target != event.currentTarget) return;
+
+            window.history.pushState({}, document.title, URL.findOriginalRoute());
+            this.close();
+        });
+
+        this.buttons = new Button;
+        this.buttons.add(document.querySelectorAll(`.${ this.props.id }.button`), this);
+
+        if (this.state.open) this.open();
+
+        URL.watchHash(this.props.id, {
+            close: {
+                function: this.close(),
+            },
+            open: {
+                function: this.open(),
+            },
+        });
     }
 
     /**
-     * * Set the Modal close buttons
+     * * Close the Modal.
+     * @param {object} [params]
      * @memberof Modal
      */
-    setButtons () {
-        let instance = this;
-        if (!this.buttons) {
-            this.buttons = [];
-        }
-        if (document.querySelectorAll(`.modal-button.${ this.props.id }`).length) {
-            for (const button of document.querySelectorAll(`.modal-button.${ this.props.id }`)) {
-                this.buttons.push(button);
-                button.addEventListener("click", function (e) {
-                    instance.switch();
-                });
-            }
-        }
-    }
+    close (params = {}) {
+        this.setState("open", false);
+        this.html.classList.remove("opened");
 
-    /**
-     * * Check the state.
-     * @memberof Modal
-     */
-    checkState () {
-        this.checkDetectHashState();
-        this.checkOpenState();
-        this.checkOutsideClickState();
-    }
-
-    /**
-     * * Check the detect hash state.
-     * @memberof Modal
-     */
-    checkDetectHashState () {
-        if (this.state.detectHash) {
-            if (URL.findHashParameter() == this.props.id) {
-                this.state.open = true;
-            }
-            window.addEventListener("hashchange", (e) => {
-                if (URL.findHashParameter() == this.props.id && !this.state.open) {
-                    this.open();
-                }
-                if (URL.findHashParameter() != this.props.id && this.state.open) {
-                    this.close();
-                }
+        if (this.callbacks.has("close")) {
+            this.callbacks.execute("switch", {
+                ...params,
+                open: this.state.open,
+                Modal: this,
             });
         }
     }
 
     /**
-     * * Check the open state.
+     * * Open the Modal.
+     * @param {object} [params]
      * @memberof Modal
      */
-    checkOpenState () {
-        if (this.state.open) {
-            this.open();
-        }
-        if (!this.state.open) {
-            this.close();
-        }
-    }
+    open (params = {}) {
+        this.setState("open", true);
+        this.html.classList.add("opened");
 
-    /**
-     * * Check the outside close state.
-     * @memberof Modal
-     */
-    checkOutsideClickState () {
-        let instance = this;
-        if (this.state.outsideClick) {
-            this.html.classList.add("clicked");
-            this.html.addEventListener("click", function (e) {
-                if (e.target !== e.currentTarget) { return }
-                window.history.pushState({}, document.title, URL.findOriginalRoute());
-                instance.close();
+        if (this.callbacks.has("open")) {
+            this.callbacks.execute("switch", {
+                ...params,
+                open: this.state.open,
+                Modal: this,
             });
         }
     }
 
     /**
      * * Switch the Modal open state.
+     * @param {object} [params]
+     * @returns {boolean}
      * @memberof Modal
      */
-    switch () {
+    switch (params = {}) {
         switch (this.state.open) {
             case true:
                 this.close();
                 break;
+
             case false:
                 this.open();
                 break;
         }
-    }
 
-    /**
-     * * Open the Modal.
-     * @memberof Modal
-     */
-    open (params = {}) {
-        this.setState("open", true);
-        if (!this.html.classList.contains("opened")) {
-            this.execute("open", {
-                ModalJS: this,
+        if (this.callbacks.has("switch")) {
+            this.callbacks.execute("switch", {
                 ...params,
+                open: this.state.open,
+                Modal: this,
             });
-            this.html.classList.add("opened");
         }
-    }
 
-    /**
-     * * Close the Modal.
-     * @memberof Modal
-     */
-    close (params = {}) {
-        this.setState("open", false);
-        if (this.html.classList.contains("opened")) {
-            this.execute("close", {
-                ModalJS: this,
-                ...params,
-            });
-            this.html.classList.remove("opened");
-        }
+        return this.state.open;
     }
 
     /** 
+     * * Returns default callbacks.
      * @static
-     * @var {object} props Default properties.
+     * @returns {object}
+     * @memberof Sidebar
      */
-    static props = {
-        id: "modal-1",
+    static callbacks () {
+        return {
+            // 
+        };
+    }
+
+    /** 
+     * * Returns default properties.
+     * @static
+     * @returns {object}
+     * @memberof Sidebar
+     */
+    static props () {
+        return {
+            id: "modal-1",
+        };
     }
     
     /** 
+     * * Returns default state.
      * @static
-     * @var {object} state Default state.
+     * @returns {object}
+     * @memberof Sidebar
      */
-    static state = {
-        detectHash: false,
-        open: false,
-        outsideClick: false,
+    static state () {
+        return {
+            open: false,
+        };
     }
-    
-    /** 
-     * @static
-     * @var {object} callbacks Default callbacks.
-     */
-    static callbacks = {
-        open: {
-            function: function (params) { /* console.log("open") */ },
-            params: {},
-    }, close: {
-            function: function (params) { /* console.log("open") */ },
-            params: {},
-    }}
 }
-
-// ? Defaut export
-export default Modal;

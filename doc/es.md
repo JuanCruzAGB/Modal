@@ -1,8 +1,8 @@
 
-# ModalJS
+# Modal
 > by [JuanCruzAGB](https://github.com/JuanCruzAGB)
 
-ModalJS hace una excelente modal, fue creado para mi uso laboral (pero puedes usarla sin problema **:D**).
+Modal hace una excelente modal, fue creado para mi uso laboral (pero puedes usarla sin problema **:D**).
 
  - [Instalación](#instalación)
  - [HTML](#html-paso-a-paso)
@@ -11,7 +11,7 @@ ModalJS hace una excelente modal, fue creado para mi uso laboral (pero puedes us
 ## Instalación
 1. Clone el repositorio en **public/submodules**.
 ```
-git clone https://github.com/JuanCruzAGB/ModalJS.git
+git clone https://github.com/JuanCruzAGB/Modal.git
 ```
 
 2. Y clone también los repositorios requeridos en **public/submodules**.
@@ -21,7 +21,7 @@ git clone https://github.com/JuanCruzAGB/JuanCruzAGB.git
 
  3. Importe el **CSS** en la etiqueta `<head>`.
 ```
-<link href="submodules/ModalJS/css/styles.css" rel="stylesheet">
+<link href="submodules/Modal/css/styles.css" rel="stylesheet">
 ```
 
 ## HTML paso a paso
@@ -62,11 +62,11 @@ Por ejemplo:
 Import the **Modal** into your script to generate the logic.
 Importe el **Modal** en tu javascript para generar la logica.
 ```
-import { Modal as ModalJS } from 'submodules/ModalJS/js/Modal.js';
+import { Modal as Modal } from 'submodules/Modal/js/Modal.js';
 ```
-Y cree un nuevo **ModalJS**
+Y cree un nuevo **Modal**
 ```
-let modal = new ModalJS({props}, {states})
+let modal = new Modal({props}, {states})
 ```
 
 Las **propiedades** existentes son:

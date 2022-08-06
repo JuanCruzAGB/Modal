@@ -1,0 +1,26 @@
+{
+    "name": "@juancruzagb/modal",
+    "version": "1.0.0",
+    "description": "Juan Cruz Armentia Gonzalez Borda packages source",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/JuanCruzAGB/Modal.git"
+    },
+    "keywords": [
+      "JuanCruzAGB",
+      "Javascript",
+      "Modal"
+    ],
+    "author": "JuanCruzAGB",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/JuanCruzAGB/Modal/issues"
+    },
+    "homepage": "https://github.com/JuanCruzAGB/Modal#readme"
+  }
+  
